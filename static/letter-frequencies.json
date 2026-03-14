@@ -1,0 +1,788 @@
+{
+  "totalWords": 2315,
+  "overallFrequencies": [
+    {
+      "letter": "E",
+      "count": 1233,
+      "percentage": 10.7
+    },
+    {
+      "letter": "A",
+      "count": 979,
+      "percentage": 8.5
+    },
+    {
+      "letter": "R",
+      "count": 899,
+      "percentage": 7.8
+    },
+    {
+      "letter": "O",
+      "count": 754,
+      "percentage": 6.5
+    },
+    {
+      "letter": "T",
+      "count": 729,
+      "percentage": 6.3
+    },
+    {
+      "letter": "L",
+      "count": 719,
+      "percentage": 6.2
+    },
+    {
+      "letter": "I",
+      "count": 671,
+      "percentage": 5.8
+    },
+    {
+      "letter": "S",
+      "count": 669,
+      "percentage": 5.8
+    },
+    {
+      "letter": "N",
+      "count": 575,
+      "percentage": 5
+    },
+    {
+      "letter": "C",
+      "count": 477,
+      "percentage": 4.1
+    },
+    {
+      "letter": "U",
+      "count": 467,
+      "percentage": 4
+    },
+    {
+      "letter": "Y",
+      "count": 425,
+      "percentage": 3.7
+    },
+    {
+      "letter": "D",
+      "count": 393,
+      "percentage": 3.4
+    },
+    {
+      "letter": "H",
+      "count": 389,
+      "percentage": 3.4
+    },
+    {
+      "letter": "P",
+      "count": 367,
+      "percentage": 3.2
+    },
+    {
+      "letter": "M",
+      "count": 316,
+      "percentage": 2.7
+    },
+    {
+      "letter": "G",
+      "count": 311,
+      "percentage": 2.7
+    },
+    {
+      "letter": "B",
+      "count": 281,
+      "percentage": 2.4
+    },
+    {
+      "letter": "F",
+      "count": 230,
+      "percentage": 2
+    },
+    {
+      "letter": "K",
+      "count": 210,
+      "percentage": 1.8
+    },
+    {
+      "letter": "W",
+      "count": 195,
+      "percentage": 1.7
+    },
+    {
+      "letter": "V",
+      "count": 153,
+      "percentage": 1.3
+    },
+    {
+      "letter": "Z",
+      "count": 40,
+      "percentage": 0.3
+    },
+    {
+      "letter": "X",
+      "count": 37,
+      "percentage": 0.3
+    },
+    {
+      "letter": "Q",
+      "count": 29,
+      "percentage": 0.3
+    },
+    {
+      "letter": "J",
+      "count": 27,
+      "percentage": 0.2
+    }
+  ],
+  "positionFrequencies": [
+    {
+      "position": 1,
+      "letters": [
+        {
+          "letter": "S",
+          "count": 366,
+          "percentage": 15.8
+        },
+        {
+          "letter": "C",
+          "count": 198,
+          "percentage": 8.6
+        },
+        {
+          "letter": "B",
+          "count": 173,
+          "percentage": 7.5
+        },
+        {
+          "letter": "T",
+          "count": 149,
+          "percentage": 6.4
+        },
+        {
+          "letter": "P",
+          "count": 142,
+          "percentage": 6.1
+        },
+        {
+          "letter": "A",
+          "count": 141,
+          "percentage": 6.1
+        },
+        {
+          "letter": "F",
+          "count": 136,
+          "percentage": 5.9
+        },
+        {
+          "letter": "G",
+          "count": 115,
+          "percentage": 5
+        },
+        {
+          "letter": "D",
+          "count": 111,
+          "percentage": 4.8
+        },
+        {
+          "letter": "M",
+          "count": 107,
+          "percentage": 4.6
+        },
+        {
+          "letter": "R",
+          "count": 105,
+          "percentage": 4.5
+        },
+        {
+          "letter": "L",
+          "count": 88,
+          "percentage": 3.8
+        },
+        {
+          "letter": "W",
+          "count": 83,
+          "percentage": 3.6
+        },
+        {
+          "letter": "E",
+          "count": 72,
+          "percentage": 3.1
+        },
+        {
+          "letter": "H",
+          "count": 69,
+          "percentage": 3
+        },
+        {
+          "letter": "V",
+          "count": 43,
+          "percentage": 1.9
+        },
+        {
+          "letter": "O",
+          "count": 41,
+          "percentage": 1.8
+        },
+        {
+          "letter": "N",
+          "count": 37,
+          "percentage": 1.6
+        },
+        {
+          "letter": "I",
+          "count": 34,
+          "percentage": 1.5
+        },
+        {
+          "letter": "U",
+          "count": 33,
+          "percentage": 1.4
+        },
+        {
+          "letter": "Q",
+          "count": 23,
+          "percentage": 1
+        },
+        {
+          "letter": "J",
+          "count": 20,
+          "percentage": 0.9
+        },
+        {
+          "letter": "K",
+          "count": 20,
+          "percentage": 0.9
+        },
+        {
+          "letter": "Y",
+          "count": 6,
+          "percentage": 0.3
+        },
+        {
+          "letter": "Z",
+          "count": 3,
+          "percentage": 0.1
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "letters": [
+        {
+          "letter": "A",
+          "count": 304,
+          "percentage": 13.1
+        },
+        {
+          "letter": "O",
+          "count": 279,
+          "percentage": 12.1
+        },
+        {
+          "letter": "R",
+          "count": 267,
+          "percentage": 11.5
+        },
+        {
+          "letter": "E",
+          "count": 242,
+          "percentage": 10.5
+        },
+        {
+          "letter": "I",
+          "count": 202,
+          "percentage": 8.7
+        },
+        {
+          "letter": "L",
+          "count": 201,
+          "percentage": 8.7
+        },
+        {
+          "letter": "U",
+          "count": 186,
+          "percentage": 8
+        },
+        {
+          "letter": "H",
+          "count": 144,
+          "percentage": 6.2
+        },
+        {
+          "letter": "N",
+          "count": 87,
+          "percentage": 3.8
+        },
+        {
+          "letter": "T",
+          "count": 77,
+          "percentage": 3.3
+        },
+        {
+          "letter": "P",
+          "count": 61,
+          "percentage": 2.6
+        },
+        {
+          "letter": "W",
+          "count": 44,
+          "percentage": 1.9
+        },
+        {
+          "letter": "C",
+          "count": 40,
+          "percentage": 1.7
+        },
+        {
+          "letter": "M",
+          "count": 38,
+          "percentage": 1.6
+        },
+        {
+          "letter": "Y",
+          "count": 23,
+          "percentage": 1
+        },
+        {
+          "letter": "D",
+          "count": 20,
+          "percentage": 0.9
+        },
+        {
+          "letter": "B",
+          "count": 16,
+          "percentage": 0.7
+        },
+        {
+          "letter": "S",
+          "count": 16,
+          "percentage": 0.7
+        },
+        {
+          "letter": "V",
+          "count": 15,
+          "percentage": 0.6
+        },
+        {
+          "letter": "X",
+          "count": 14,
+          "percentage": 0.6
+        },
+        {
+          "letter": "G",
+          "count": 12,
+          "percentage": 0.5
+        },
+        {
+          "letter": "K",
+          "count": 10,
+          "percentage": 0.4
+        },
+        {
+          "letter": "F",
+          "count": 8,
+          "percentage": 0.3
+        },
+        {
+          "letter": "Q",
+          "count": 5,
+          "percentage": 0.2
+        },
+        {
+          "letter": "Z",
+          "count": 2,
+          "percentage": 0.1
+        },
+        {
+          "letter": "J",
+          "count": 2,
+          "percentage": 0.1
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "letters": [
+        {
+          "letter": "A",
+          "count": 307,
+          "percentage": 13.3
+        },
+        {
+          "letter": "I",
+          "count": 266,
+          "percentage": 11.5
+        },
+        {
+          "letter": "O",
+          "count": 244,
+          "percentage": 10.5
+        },
+        {
+          "letter": "E",
+          "count": 177,
+          "percentage": 7.6
+        },
+        {
+          "letter": "U",
+          "count": 165,
+          "percentage": 7.1
+        },
+        {
+          "letter": "R",
+          "count": 163,
+          "percentage": 7
+        },
+        {
+          "letter": "N",
+          "count": 139,
+          "percentage": 6
+        },
+        {
+          "letter": "L",
+          "count": 112,
+          "percentage": 4.8
+        },
+        {
+          "letter": "T",
+          "count": 111,
+          "percentage": 4.8
+        },
+        {
+          "letter": "S",
+          "count": 80,
+          "percentage": 3.5
+        },
+        {
+          "letter": "D",
+          "count": 75,
+          "percentage": 3.2
+        },
+        {
+          "letter": "G",
+          "count": 67,
+          "percentage": 2.9
+        },
+        {
+          "letter": "M",
+          "count": 61,
+          "percentage": 2.6
+        },
+        {
+          "letter": "P",
+          "count": 58,
+          "percentage": 2.5
+        },
+        {
+          "letter": "B",
+          "count": 57,
+          "percentage": 2.5
+        },
+        {
+          "letter": "C",
+          "count": 56,
+          "percentage": 2.4
+        },
+        {
+          "letter": "V",
+          "count": 49,
+          "percentage": 2.1
+        },
+        {
+          "letter": "Y",
+          "count": 29,
+          "percentage": 1.3
+        },
+        {
+          "letter": "W",
+          "count": 26,
+          "percentage": 1.1
+        },
+        {
+          "letter": "F",
+          "count": 25,
+          "percentage": 1.1
+        },
+        {
+          "letter": "K",
+          "count": 12,
+          "percentage": 0.5
+        },
+        {
+          "letter": "X",
+          "count": 12,
+          "percentage": 0.5
+        },
+        {
+          "letter": "Z",
+          "count": 11,
+          "percentage": 0.5
+        },
+        {
+          "letter": "H",
+          "count": 9,
+          "percentage": 0.4
+        },
+        {
+          "letter": "J",
+          "count": 3,
+          "percentage": 0.1
+        },
+        {
+          "letter": "Q",
+          "count": 1,
+          "percentage": 0
+        }
+      ]
+    },
+    {
+      "position": 4,
+      "letters": [
+        {
+          "letter": "E",
+          "count": 318,
+          "percentage": 13.7
+        },
+        {
+          "letter": "N",
+          "count": 182,
+          "percentage": 7.9
+        },
+        {
+          "letter": "S",
+          "count": 171,
+          "percentage": 7.4
+        },
+        {
+          "letter": "A",
+          "count": 163,
+          "percentage": 7
+        },
+        {
+          "letter": "L",
+          "count": 162,
+          "percentage": 7
+        },
+        {
+          "letter": "I",
+          "count": 158,
+          "percentage": 6.8
+        },
+        {
+          "letter": "C",
+          "count": 152,
+          "percentage": 6.6
+        },
+        {
+          "letter": "R",
+          "count": 152,
+          "percentage": 6.6
+        },
+        {
+          "letter": "T",
+          "count": 139,
+          "percentage": 6
+        },
+        {
+          "letter": "O",
+          "count": 132,
+          "percentage": 5.7
+        },
+        {
+          "letter": "U",
+          "count": 82,
+          "percentage": 3.5
+        },
+        {
+          "letter": "G",
+          "count": 76,
+          "percentage": 3.3
+        },
+        {
+          "letter": "D",
+          "count": 69,
+          "percentage": 3
+        },
+        {
+          "letter": "M",
+          "count": 68,
+          "percentage": 2.9
+        },
+        {
+          "letter": "K",
+          "count": 55,
+          "percentage": 2.4
+        },
+        {
+          "letter": "P",
+          "count": 50,
+          "percentage": 2.2
+        },
+        {
+          "letter": "V",
+          "count": 46,
+          "percentage": 2
+        },
+        {
+          "letter": "F",
+          "count": 35,
+          "percentage": 1.5
+        },
+        {
+          "letter": "H",
+          "count": 28,
+          "percentage": 1.2
+        },
+        {
+          "letter": "W",
+          "count": 25,
+          "percentage": 1.1
+        },
+        {
+          "letter": "B",
+          "count": 24,
+          "percentage": 1
+        },
+        {
+          "letter": "Z",
+          "count": 20,
+          "percentage": 0.9
+        },
+        {
+          "letter": "X",
+          "count": 3,
+          "percentage": 0.1
+        },
+        {
+          "letter": "Y",
+          "count": 3,
+          "percentage": 0.1
+        },
+        {
+          "letter": "J",
+          "count": 2,
+          "percentage": 0.1
+        }
+      ]
+    },
+    {
+      "position": 5,
+      "letters": [
+        {
+          "letter": "E",
+          "count": 424,
+          "percentage": 18.3
+        },
+        {
+          "letter": "Y",
+          "count": 364,
+          "percentage": 15.7
+        },
+        {
+          "letter": "T",
+          "count": 253,
+          "percentage": 10.9
+        },
+        {
+          "letter": "R",
+          "count": 212,
+          "percentage": 9.2
+        },
+        {
+          "letter": "L",
+          "count": 156,
+          "percentage": 6.7
+        },
+        {
+          "letter": "H",
+          "count": 139,
+          "percentage": 6
+        },
+        {
+          "letter": "N",
+          "count": 130,
+          "percentage": 5.6
+        },
+        {
+          "letter": "D",
+          "count": 118,
+          "percentage": 5.1
+        },
+        {
+          "letter": "K",
+          "count": 113,
+          "percentage": 4.9
+        },
+        {
+          "letter": "A",
+          "count": 64,
+          "percentage": 2.8
+        },
+        {
+          "letter": "O",
+          "count": 58,
+          "percentage": 2.5
+        },
+        {
+          "letter": "P",
+          "count": 56,
+          "percentage": 2.4
+        },
+        {
+          "letter": "M",
+          "count": 42,
+          "percentage": 1.8
+        },
+        {
+          "letter": "G",
+          "count": 41,
+          "percentage": 1.8
+        },
+        {
+          "letter": "S",
+          "count": 36,
+          "percentage": 1.6
+        },
+        {
+          "letter": "C",
+          "count": 31,
+          "percentage": 1.3
+        },
+        {
+          "letter": "F",
+          "count": 26,
+          "percentage": 1.1
+        },
+        {
+          "letter": "W",
+          "count": 17,
+          "percentage": 0.7
+        },
+        {
+          "letter": "I",
+          "count": 11,
+          "percentage": 0.5
+        },
+        {
+          "letter": "B",
+          "count": 11,
+          "percentage": 0.5
+        },
+        {
+          "letter": "X",
+          "count": 8,
+          "percentage": 0.3
+        },
+        {
+          "letter": "Z",
+          "count": 4,
+          "percentage": 0.2
+        },
+        {
+          "letter": "U",
+          "count": 1,
+          "percentage": 0
+        }
+      ]
+    }
+  ],
+  "letterRanking": "EAROTLISNCUYDHPMGBFKWVZXQJ"
+}
