@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import {
 		filterWords,
 		parseConstraints,
@@ -17,17 +16,43 @@
 	let loading = true;
 
 	// Input bindings
-	let correctInput = '';
+	let correctLetters = ['', '', '', '', ''];
 	let presentInput = '';
 	let absentInput = '';
+
+	// Handle input in letter boxes
+	function handleLetterInput(index: number, event: Event) {
+		const input = event.target as HTMLInputElement;
+		const value = input.value.slice(-1); // Take only the last character
+
+		correctLetters[index] = value;
+		correctLetters = correctLetters; // Trigger reactivity
+
+		// Move to next box if a letter was entered
+		if (value && index < 4) {
+			const nextInput = document.getElementById(`letter-${index + 1}`) as HTMLInputElement;
+			nextInput?.focus();
+		}
+
+		handleInput();
+	}
+
+	// Handle keydown for backspace navigation
+	function handleLetterKeydown(index: number, event: KeyboardEvent) {
+		if (event.key === 'Backspace' && !correctLetters[index] && index > 0) {
+			// Move to previous box on backspace if current is empty
+			const prevInput = document.getElementById(`letter-${index - 1}`) as HTMLInputElement;
+			prevInput?.focus();
+		}
+	}
 
 	// Load words on mount
 	async function loadWords() {
 		try {
 			const [validRes, bankRes, freqRes] = await Promise.all([
-				fetch(`${base}/valid-words.csv`),
-				fetch(`${base}/word-bank.csv`),
-				fetch(`${base}/letter-frequencies.json`)
+				fetch('valid-words.csv'),
+				fetch('word-bank.csv'),
+				fetch('letter-frequencies.json')
 			]);
 
 			const validText = await validRes.text();
@@ -52,7 +77,9 @@
 	}
 
 	function updateFilteredWords() {
-		const result = parseConstraints(correctInput, presentInput, absentInput);
+		// Compute correctInput from correctLetters immediately (don't rely on reactive $:)
+		const currentCorrectInput = correctLetters.map((l) => l.toLowerCase() || '.').join('');
+		const result = parseConstraints(currentCorrectInput, presentInput, absentInput);
 
 		// Filter word bank and valid words separately
 		const filteredWordBank = filterWords(wordBank, result.constraints);
@@ -99,7 +126,7 @@
 	}
 
 	function clearAll() {
-		correctInput = '';
+		correctLetters = ['', '', '', '', ''];
 		presentInput = '';
 		absentInput = '';
 		updateFilteredWords();
@@ -117,16 +144,21 @@
 	{:else}
 		<div class="inputs">
 			<div class="input-group">
-				<label for="correct">Correct positions (e.g., "a..e.")</label>
-				<input
-					id="correct"
-					type="text"
-					maxlength="5"
-					bind:value={correctInput}
-					on:input={handleInput}
-					placeholder="a..e."
-				/>
-				<small>Use "." or space for unknown positions</small>
+				<span class="input-label">Correct positions</span>
+				<div class="letter-boxes" role="group" aria-label="Correct positions">
+					{#each correctLetters as letter, index (index)}
+						<input
+							id="letter-{index}"
+							type="text"
+							maxlength="1"
+							value={letter}
+							on:input={(e) => handleLetterInput(index, e)}
+							on:keydown={(e) => handleLetterKeydown(index, e)}
+							class="letter-box"
+						/>
+					{/each}
+				</div>
+				<small>Type letters in the correct positions, leave empty for unknown</small>
 			</div>
 
 			<div class="input-group">
@@ -215,7 +247,8 @@
 		gap: 0.25rem;
 	}
 
-	.input-group label {
+	.input-group label,
+	.input-group .input-label {
 		font-weight: bold;
 		color: #333;
 	}
@@ -231,6 +264,30 @@
 	.input-group input:focus {
 		outline: none;
 		border-color: #6aaa64;
+	}
+
+	.letter-boxes {
+		display: flex;
+		gap: 0.5rem;
+		justify-content: center;
+	}
+
+	.letter-box {
+		width: 3rem;
+		height: 3rem;
+		font-size: 1.5rem;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+		border: 2px solid #d3d6da;
+		border-radius: 4px;
+		background-color: white;
+	}
+
+	.letter-box:focus {
+		outline: none;
+		border-color: #6aaa64;
+		background-color: #f0f0f0;
 	}
 
 	.input-group small {
