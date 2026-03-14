@@ -20,8 +20,6 @@
 	let correctInput = '';
 	let presentInput = '';
 	let absentInput = '';
-	let useWordBank = true;
-	let useValidWords = true;
 
 	// Load words on mount
 	async function loadWords() {
@@ -57,8 +55,8 @@
 		const result = parseConstraints(correctInput, presentInput, absentInput);
 
 		// Filter word bank and valid words separately
-		const filteredWordBank = useWordBank ? filterWords(wordBank, result.constraints) : [];
-		const filteredValidWords = useValidWords ? filterWords(validWords, result.constraints) : [];
+		const filteredWordBank = filterWords(wordBank, result.constraints);
+		const filteredValidWords = filterWords(validWords, result.constraints);
 
 		// Combine for display and remove duplicates
 		filteredWords = [...new Set([...filteredWordBank, ...filteredValidWords])];
@@ -117,17 +115,6 @@
 	{#if loading}
 		<p>Loading word lists...</p>
 	{:else}
-		<div class="word-sources">
-			<label>
-				<input type="checkbox" bind:checked={useWordBank} on:change={handleInput} />
-				Use Word Bank (2,315 words)
-			</label>
-			<label>
-				<input type="checkbox" bind:checked={useValidWords} on:change={handleInput} />
-				Use Valid Words (12,972 words)
-			</label>
-		</div>
-
 		<div class="inputs">
 			<div class="input-group">
 				<label for="correct">Correct positions (e.g., "a..e.")</label>
@@ -213,21 +200,6 @@
 		max-width: 800px;
 		margin: 0 auto;
 		padding: 1rem;
-	}
-
-	.word-sources {
-		display: flex;
-		gap: 1.5rem;
-		justify-content: center;
-		margin-bottom: 1.5rem;
-		flex-wrap: wrap;
-	}
-
-	.word-sources label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
 	}
 
 	.inputs {
