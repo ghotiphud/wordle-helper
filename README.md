@@ -2,8 +2,6 @@
 
 A web app to help solve Wordle puzzles by filtering words based on known letters and suggesting the best next guesses.
 
-**Live Demo**: [https://yale.github.io/wordle-helper](https://yale.github.io/wordle-helper)
-
 ## Features
 
 - **Filter by constraints**: Enter correct positions, present letters, and absent letters
