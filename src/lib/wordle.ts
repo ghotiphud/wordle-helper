@@ -2,6 +2,7 @@ export interface WordleConstraints {
 	correct: (string | null)[]; // 5 positions, null if unknown
 	present: Set<string>; // letters that must be in the word (but not necessarily at specific positions)
 	absent: Set<string>; // letters not in the word
+	wrongPosition: Set<string>[]; // letters known not to occur at each position
 }
 
 export interface ParseResult {
@@ -16,6 +17,15 @@ export function filterWords(words: string[], constraints: WordleConstraints): st
 			const correctLetter = constraints.correct[i];
 			if (correctLetter && word[i] !== correctLetter) {
 				return false;
+			}
+		}
+
+		// Check wrong-position letters
+		for (let i = 0; i < 5; i++) {
+			for (const letter of constraints.wrongPosition[i]) {
+				if (word[i] === letter) {
+					return false;
+				}
 			}
 		}
 
@@ -92,6 +102,7 @@ export function getEliminationWords(
 	count: number = 10
 ): { word: string; newLetters: string; score: number }[] {
 	// Create a set of all known letters (correct + present + absent)
+	// Wrong-position letters are already covered by present/correct, so they are omitted here
 	const knownLetters = new Set<string>();
 	for (const letter of constraints.correct) {
 		if (letter) knownLetters.add(letter);
@@ -151,7 +162,12 @@ export function getEliminationWords(
 		.slice(0, count);
 }
 
-export function parseConstraints(correct: string, present: string, absent: string): ParseResult {
+export function parseConstraints(
+	correct: string,
+	present: string,
+	absent: string,
+	wrongPosition: string[] = ['', '', '', '', '']
+): ParseResult {
 	// Parse correct positions (e.g., "a..e." -> ['a', null, null, 'e', null])
 	const correctArray: (string | null)[] = [null, null, null, null, null];
 	if (correct && correct.length === 5) {
@@ -183,6 +199,19 @@ export function parseConstraints(correct: string, present: string, absent: strin
 		}
 	}
 
+	// Parse wrong-position letters per position
+	const wrongPositionSets: Set<string>[] = Array.from({ length: 5 }, () => new Set<string>());
+	for (let i = 0; i < 5; i++) {
+		const input = wrongPosition[i];
+		if (input) {
+			for (const char of input.toLowerCase()) {
+				if (char >= 'a' && char <= 'z') {
+					wrongPositionSets[i].add(char);
+				}
+			}
+		}
+	}
+
 	// Find and remove letters that are both present/absent (can't be both)
 	// A letter in "correct" or "present" takes precedence over "absent"
 	const conflicts: string[] = [];
@@ -200,11 +229,20 @@ export function parseConstraints(correct: string, present: string, absent: strin
 		}
 	}
 
+	// Remove letters from wrong-position sets if they are already correct at that position
+	for (let i = 0; i < 5; i++) {
+		const correctLetter = correctArray[i];
+		if (correctLetter && wrongPositionSets[i].has(correctLetter)) {
+			wrongPositionSets[i].delete(correctLetter);
+		}
+	}
+
 	return {
 		constraints: {
 			correct: correctArray,
 			present: presentSet,
-			absent: absentSet
+			absent: absentSet,
+			wrongPosition: wrongPositionSets
 		},
 		conflicts
 	};

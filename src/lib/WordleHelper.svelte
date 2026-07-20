@@ -18,7 +18,7 @@
 	// Input bindings
 	let correctLetters = ['', '', '', '', ''];
 	let presentInput = '';
-	let absentInput = '';
+	let guessWords = ['', '', '', '', ''];
 
 	// Handle input in letter boxes
 	function handleLetterInput(index: number, event: Event) {
@@ -44,6 +44,54 @@
 			const prevInput = document.getElementById(`letter-${index - 1}`) as HTMLInputElement;
 			prevInput?.focus();
 		}
+	}
+
+	// Handle input in guess word boxes
+	function handleGuessInput(index: number, event: Event) {
+		const input = event.target as HTMLInputElement;
+		guessWords[index] = input.value.toLowerCase();
+		guessWords = guessWords; // Trigger reactivity
+		handleInput();
+	}
+
+	// Derive absent letters and wrong-position constraints from guess words
+	function deriveFromGuesses(): { absent: string; wrongPosition: string[] } {
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
+		const absentSet = new Set<string>();
+		const wrongPosition: string[] = ['', '', '', '', ''];
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
+		const presentSet = new Set<string>();
+		for (const char of presentInput.toLowerCase()) {
+			if (char >= 'a' && char <= 'z') {
+				presentSet.add(char);
+			}
+		}
+
+		for (const guess of guessWords) {
+			const lowerGuess = guess.toLowerCase();
+			if (lowerGuess.length !== 5) continue;
+
+			for (let i = 0; i < 5; i++) {
+				const letter = lowerGuess[i];
+				if (letter < 'a' || letter > 'z') continue;
+
+				const correctLetter = correctLetters[i].toLowerCase();
+				if (correctLetter && correctLetter === letter) {
+					continue;
+				}
+
+				if (presentSet.has(letter)) {
+					wrongPosition[i] += letter;
+				} else {
+					absentSet.add(letter);
+				}
+			}
+		}
+
+		return {
+			absent: [...absentSet].join(''),
+			wrongPosition
+		};
 	}
 
 	// Load words on mount
@@ -79,7 +127,13 @@
 	function updateFilteredWords() {
 		// Compute correctInput from correctLetters immediately (don't rely on reactive $:)
 		const currentCorrectInput = correctLetters.map((l) => l.toLowerCase() || '.').join('');
-		const result = parseConstraints(currentCorrectInput, presentInput, absentInput);
+		const derived = deriveFromGuesses();
+		const result = parseConstraints(
+			currentCorrectInput,
+			presentInput,
+			derived.absent,
+			derived.wrongPosition
+		);
 
 		// Filter word bank and valid words separately
 		const filteredWordBank = filterWords(wordBank, result.constraints);
@@ -128,7 +182,7 @@
 	function clearAll() {
 		correctLetters = ['', '', '', '', ''];
 		presentInput = '';
-		absentInput = '';
+		guessWords = ['', '', '', '', ''];
 		updateFilteredWords();
 	}
 
@@ -174,14 +228,22 @@
 			</div>
 
 			<div class="input-group">
-				<label for="absent">Absent letters (e.g., "xyz")</label>
-				<input
-					id="absent"
-					type="text"
-					bind:value={absentInput}
-					on:input={handleInput}
-					placeholder="xyz"
-				/>
+				<span class="input-label">Guess words</span>
+				<div class="absent-guesses" role="group" aria-label="Guess words">
+					{#each guessWords as guessWord, index (index)}
+						{#if index === 0 || guessWords[index - 1].length === 5}
+							<input
+								id="guess-{index}"
+								type="text"
+								value={guessWord}
+								on:input={(e) => handleGuessInput(index, e)}
+								placeholder="Guess {index + 1}"
+								maxlength="5"
+							/>
+						{/if}
+					{/each}
+				</div>
+				<small>Enter your guess words to auto-derive absent and wrong-position letters</small>
 			</div>
 		</div>
 
@@ -270,6 +332,12 @@
 		display: flex;
 		gap: 0.5rem;
 		justify-content: center;
+	}
+
+	.absent-guesses {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 	}
 
 	.letter-box {

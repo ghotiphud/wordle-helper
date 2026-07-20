@@ -28,6 +28,17 @@ describe('parseConstraints', () => {
 		expect(result.constraints.correct).toEqual([null, null, null, null, null]);
 		expect(result.constraints.present.size).toBe(0);
 		expect(result.constraints.absent.size).toBe(0);
+		expect(result.constraints.wrongPosition).toHaveLength(5);
+		for (const set of result.constraints.wrongPosition) {
+			expect(set.size).toBe(0);
+		}
+	});
+
+	it('should parse wrong-position letters', () => {
+		const result = parseConstraints('', '', '', ['a', 'b', '', '', '']);
+		expect(result.constraints.wrongPosition[0]).toEqual(new Set(['a']));
+		expect(result.constraints.wrongPosition[1]).toEqual(new Set(['b']));
+		expect(result.constraints.wrongPosition[2]).toEqual(new Set());
 	});
 });
 
@@ -38,7 +49,8 @@ describe('filterWords', () => {
 		const constraints = {
 			correct: ['a', null, null, null, null] as (string | null)[],
 			present: new Set<string>(),
-			absent: new Set<string>()
+			absent: new Set<string>(),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const result = filterWords(testWords, constraints);
 		expect(result).toEqual(['apple']);
@@ -48,7 +60,8 @@ describe('filterWords', () => {
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
 			present: new Set<string>(),
-			absent: new Set<string>(['x'])
+			absent: new Set<string>(['x']),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const result = filterWords(testWords, constraints);
 		// All words should pass since none have 'x'
@@ -59,7 +72,8 @@ describe('filterWords', () => {
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
 			present: new Set<string>(['a']),
-			absent: new Set<string>()
+			absent: new Set<string>(),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const result = filterWords(testWords, constraints);
 		// Words containing 'a': apple, beach, crane, dream, eagle
@@ -70,7 +84,8 @@ describe('filterWords', () => {
 		const constraints = {
 			correct: [null, 'r', null, null, null] as (string | null)[],
 			present: new Set<string>(['e']),
-			absent: new Set<string>(['z'])
+			absent: new Set<string>(['z']),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const result = filterWords(testWords, constraints);
 		// crane: 'r' at pos 1, contains 'e' ✓
@@ -82,10 +97,25 @@ describe('filterWords', () => {
 		const constraints = {
 			correct: ['z', 'z', 'z', 'z', 'z'] as (string | null)[],
 			present: new Set<string>(),
-			absent: new Set<string>()
+			absent: new Set<string>(),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const result = filterWords(testWords, constraints);
 		expect(result).toEqual([]);
+	});
+
+	it('should filter by wrong-position letters', () => {
+		const wrongPosition = Array.from({ length: 5 }, () => new Set<string>());
+		wrongPosition[0].add('a');
+		const constraints = {
+			correct: [null, null, null, null, null] as (string | null)[],
+			present: new Set<string>(),
+			absent: new Set<string>(),
+			wrongPosition
+		};
+		const result = filterWords(testWords, constraints);
+		// apple starts with 'a', so it should be excluded
+		expect(result).toEqual(['beach', 'crane', 'dream', 'eagle']);
 	});
 
 	it('should not allow letters to be both present and absent', () => {
@@ -102,6 +132,27 @@ describe('filterWords', () => {
 		expect(result.constraints.correct).toEqual(['a', null, null, null, null]);
 		expect(result.constraints.absent).toEqual(new Set(['b'])); // 'a' removed from absent
 		expect(result.conflicts).toEqual(['a']);
+	});
+
+	it('should handle repeated p with p correct in position 1 and wrong in position 4', () => {
+		const wrongPosition = Array.from({ length: 5 }, () => new Set<string>());
+		wrongPosition[4].add('p');
+		const constraints = {
+			correct: [null, 'p', null, null, null] as (string | null)[],
+			present: new Set<string>(),
+			absent: new Set<string>(),
+			wrongPosition
+		};
+		const result = filterWords(['apple', 'apply', 'hippo', 'pinto', 'tipsy'], constraints);
+		// apple and apply have p at position 1 and no p at position 4
+		expect(result).toEqual(['apple', 'apply']);
+	});
+
+	it('should not treat repeated p as absent when it is present', () => {
+		const result = parseConstraints('', 'p', 'p');
+		expect(result.constraints.present).toEqual(new Set(['p']));
+		expect(result.constraints.absent).toEqual(new Set()); // 'p' removed from absent
+		expect(result.conflicts).toEqual(['p']);
 	});
 });
 
@@ -123,7 +174,8 @@ describe('getEliminationWords', () => {
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
 			present: new Set<string>(),
-			absent: new Set<string>(['a']) // 'a' is already known to be absent
+			absent: new Set<string>(['a']), // 'a' is already known to be absent
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		// possibleWords determines which letters are considered for scoring
 		const possibleWords = ['beach', 'crane', 'dream'];
@@ -141,7 +193,8 @@ describe('getEliminationWords', () => {
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
 			present: new Set<string>(['a', 'b', 'c', 'd', 'e']),
-			absent: new Set<string>()
+			absent: new Set<string>(),
+			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};
 		const possibleWords = ['apple'];
 		const result = getEliminationWords(['apple'], possibleWords, constraints, mockFrequencies, 10);
