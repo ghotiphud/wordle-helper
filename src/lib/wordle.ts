@@ -135,22 +135,23 @@ export function getEliminationWords(
 	// Reuse the cached full letter score map; possibleWords filtering happens during scoring
 	const letterScores = getLetterScores(letterFrequencies);
 
-	// Score words by how many unknown common letters they contain
+	// Score words by how many unknown common letters they contain.
+	// Only letters that appear in the possible words can eliminate options,
+	// so letters not in possibleWords contribute neither to the count nor the score.
 	const scored = allWords.map((word) => {
 		const letters = word.toLowerCase().split('');
 		const uniqueLetters = new Set(letters);
 
-		// Count unknown letters and their frequencies
+		// Count useful unknown letters and their frequencies
 		const newLetters: string[] = [];
 		let score = 0;
 
 		for (const letter of uniqueLetters) {
-			if (!knownLetters.has(letter)) {
-				newLetters.push(letter);
-				if (possibleLetters.has(letter)) {
-					score += letterScores.get(letter) || 0;
-				}
+			if (knownLetters.has(letter) || !possibleLetters.has(letter)) {
+				continue;
 			}
+			newLetters.push(letter);
+			score += letterScores.get(letter) || 0;
 		}
 
 		return {
@@ -161,10 +162,11 @@ export function getEliminationWords(
 		};
 	});
 
-	// Filter words that have at least 3 new letters, then sort by score
+	// Filter words that test at least 1 new letter, prioritize the most new
+	// letters eliminated, then by score
 	return scored
-		.filter((w) => w.newLetterCount >= 3)
-		.sort((a, b) => b.score - a.score)
+		.filter((w) => w.newLetterCount >= 1)
+		.sort((a, b) => b.newLetterCount - a.newLetterCount || b.score - a.score)
 		.slice(0, count);
 }
 

@@ -183,16 +183,16 @@ describe('getEliminationWords', () => {
 
 		// Should prefer words without 'a'
 		expect(result.length).toBeGreaterThan(0);
-		// All results should have at least 3 new letters (newLetters string length)
+		// All results should have at least 1 new letter (newLetters string length)
 		for (const word of result) {
-			expect(word.newLetters.length).toBeGreaterThanOrEqual(3);
+			expect(word.newLetters.length).toBeGreaterThanOrEqual(1);
 		}
 	});
 
 	it('should return empty array when no words have enough new letters', () => {
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
-			present: new Set<string>(['a', 'b', 'c', 'd', 'e']),
+			present: new Set<string>(['a', 'b', 'c', 'd', 'e', 'p', 'l']),
 			absent: new Set<string>(),
 			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
 		};

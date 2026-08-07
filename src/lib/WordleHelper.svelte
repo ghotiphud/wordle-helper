@@ -269,9 +269,11 @@
 
 <style>
 	.wordle-helper {
+		width: 100%;
 		max-width: 800px;
 		margin: 0 auto;
 		padding: 1rem;
+		box-sizing: border-box;
 	}
 
 	.inputs {
