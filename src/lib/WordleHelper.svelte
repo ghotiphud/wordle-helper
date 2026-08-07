@@ -7,8 +7,7 @@
 		type LetterFrequencies
 	} from '$lib/wordle';
 
-	let validWords: string[] = [];
-	let wordBank: string[] = [];
+	let words: string[] = [];
 	let filteredWords: string[] = [];
 	let suggestedWords: { word: string; score: number; uniqueLetters: number }[] = [];
 	let eliminationWords: { word: string; newLetters: string; score: number }[] = [];
@@ -97,21 +96,15 @@
 	// Load words on mount
 	async function loadWords() {
 		try {
-			const [validRes, bankRes, freqRes] = await Promise.all([
+			const [validRes, freqRes] = await Promise.all([
 				fetch('valid-words.csv'),
-				fetch('word-bank.csv'),
 				fetch('letter-frequencies.json')
 			]);
 
 			const validText = await validRes.text();
-			const bankText = await bankRes.text();
 			letterFrequencies = await freqRes.json();
 
-			validWords = validText
-				.trim()
-				.split('\n')
-				.map((w) => w.trim().toLowerCase());
-			wordBank = bankText
+			words = validText
 				.trim()
 				.split('\n')
 				.map((w) => w.trim().toLowerCase());
@@ -135,37 +128,22 @@
 			derived.wrongPosition
 		);
 
-		// Filter word bank and valid words separately
-		const filteredWordBank = filterWords(wordBank, result.constraints);
-		const filteredValidWords = filterWords(validWords, result.constraints);
+		// Filter the full word list
+		filteredWords = filterWords(words, result.constraints);
 
-		// Combine for display and remove duplicates
-		filteredWords = [...new Set([...filteredWordBank, ...filteredValidWords])];
-
-		// Score and rank suggestions by letter frequency - only use word bank
-		if (letterFrequencies && filteredWordBank.length > 0) {
-			suggestedWords = scoreWordsByFrequency(filteredWordBank, letterFrequencies).slice(0, 10);
+		// Score and rank suggestions by letter frequency
+		if (letterFrequencies && filteredWords.length > 0) {
+			suggestedWords = scoreWordsByFrequency(filteredWords, letterFrequencies).slice(0, 10);
 		} else {
 			suggestedWords = [];
 		}
 
-		// Get elimination words - always use ALL words from both sources
-		// Filter letter scores by letters in filteredWordBank (possible solutions)
+		// Get elimination words - always use ALL words
+		// Filter letter scores by letters in filteredWords (possible solutions)
 		if (letterFrequencies) {
-			const allWords = [...wordBank, ...validWords];
-
-			// Build constraints from letters that appear in filteredWordBank
-			// eslint-disable-next-line svelte/prefer-svelte-reactivity
-			const wordBankLetters = new Set<string>();
-			for (const word of filteredWordBank) {
-				for (const letter of word) {
-					wordBankLetters.add(letter);
-				}
-			}
-
 			eliminationWords = getEliminationWords(
-				[...new Set(allWords)],
-				filteredWordBank,
+				words,
+				filteredWords,
 				result.constraints,
 				letterFrequencies,
 				10

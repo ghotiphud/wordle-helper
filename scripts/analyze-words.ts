@@ -5,10 +5,10 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const wordBankPath = join(__dirname, '..', 'static', 'word-bank.csv');
+const wordListPath = join(__dirname, '..', 'static', 'valid-words.csv');
 const outputPath = join(__dirname, '..', 'static', 'letter-frequencies.json');
 
-const words = readFileSync(wordBankPath, 'utf-8')
+const words = readFileSync(wordListPath, 'utf-8')
 	.trim()
 	.split('\n')
 	.map((w) => w.trim().toLowerCase());

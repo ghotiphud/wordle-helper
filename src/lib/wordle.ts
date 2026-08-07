@@ -59,15 +59,25 @@ export interface LetterFrequencies {
 	letterRanking: string;
 }
 
+let cachedLetterFrequencies: LetterFrequencies | null = null;
+let cachedLetterScores: Map<string, number> | null = null;
+
+function getLetterScores(letterFrequencies: LetterFrequencies): Map<string, number> {
+	if (cachedLetterScores === null || cachedLetterFrequencies !== letterFrequencies) {
+		cachedLetterFrequencies = letterFrequencies;
+		cachedLetterScores = new Map<string, number>();
+		for (const freq of letterFrequencies.overallFrequencies) {
+			cachedLetterScores.set(freq.letter.toLowerCase(), freq.percentage);
+		}
+	}
+	return cachedLetterScores;
+}
+
 export function scoreWordsByFrequency(
 	words: string[],
 	letterFrequencies: LetterFrequencies
 ): { word: string; score: number; uniqueLetters: number }[] {
-	// Create a map of letter to frequency score
-	const letterScores = new Map<string, number>();
-	for (const freq of letterFrequencies.overallFrequencies) {
-		letterScores.set(freq.letter.toLowerCase(), freq.percentage);
-	}
+	const letterScores = getLetterScores(letterFrequencies);
 
 	// Score each word
 	const scored = words.map((word) => {
@@ -122,14 +132,8 @@ export function getEliminationWords(
 		}
 	}
 
-	// Create a map of letter to frequency score, only for letters in possible words
-	const letterScores = new Map<string, number>();
-	for (const freq of letterFrequencies.overallFrequencies) {
-		const letter = freq.letter.toLowerCase();
-		if (possibleLetters.has(letter)) {
-			letterScores.set(letter, freq.percentage);
-		}
-	}
+	// Reuse the cached full letter score map; possibleWords filtering happens during scoring
+	const letterScores = getLetterScores(letterFrequencies);
 
 	// Score words by how many unknown common letters they contain
 	const scored = allWords.map((word) => {
@@ -143,7 +147,9 @@ export function getEliminationWords(
 		for (const letter of uniqueLetters) {
 			if (!knownLetters.has(letter)) {
 				newLetters.push(letter);
-				score += letterScores.get(letter) || 0;
+				if (possibleLetters.has(letter)) {
+					score += letterScores.get(letter) || 0;
+				}
 			}
 		}
 
