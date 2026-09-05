@@ -154,20 +154,35 @@ export function getEliminationWords(
 			score += letterScores.get(letter) || 0;
 		}
 
+		// Bonus for placing known present letters in untested positions
+		let positionBonus = 0;
+		for (const letter of constraints.present) {
+			for (let i = 0; i < 5; i++) {
+				if (
+					letters[i] === letter &&
+					!constraints.correct[i] &&
+					!constraints.wrongPosition[i].has(letter)
+				) {
+					positionBonus += 2;
+				}
+			}
+		}
+
 		return {
 			word,
 			newLetters: newLetters.join(''),
-			score: Math.round(score * 10) / 10,
+			score: Math.round((score + positionBonus) * 10) / 10,
 			newLetterCount: newLetters.length
 		};
 	});
 
-	// Filter words that test at least 1 new letter, prioritize the most new
-	// letters eliminated, then by score
+	// Filter words that test at least 1 new letter or place a present letter in
+	// an untested position, prioritize the most new letters, then by score.
 	return scored
 		.filter((w) => w.newLetterCount >= 1)
 		.sort((a, b) => b.newLetterCount - a.newLetterCount || b.score - a.score)
-		.slice(0, count);
+		.slice(0, count)
+		.map(({ word, newLetters, score }) => ({ word, newLetters, score }));
 }
 
 export function parseConstraints(

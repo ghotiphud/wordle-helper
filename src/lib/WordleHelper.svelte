@@ -10,7 +10,11 @@
 	let words: string[] = [];
 	let filteredWords: string[] = [];
 	let suggestedWords: { word: string; score: number; uniqueLetters: number }[] = [];
-	let eliminationWords: { word: string; newLetters: string; score: number }[] = [];
+	let eliminationWords: {
+		word: string;
+		newLetters: string;
+		score: number;
+	}[] = [];
 	let letterFrequencies: LetterFrequencies | null = null;
 	let loading = true;
 

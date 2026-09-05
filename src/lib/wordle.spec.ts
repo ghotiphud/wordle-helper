@@ -189,15 +189,28 @@ describe('getEliminationWords', () => {
 		}
 	});
 
-	it('should return empty array when no words have enough new letters', () => {
+	it('should prefer words that place known present letters in untested positions', () => {
+		const wrongPosition = Array.from({ length: 5 }, () => new Set<string>());
+		wrongPosition[0].add('a');
 		const constraints = {
 			correct: [null, null, null, null, null] as (string | null)[],
-			present: new Set<string>(['a', 'b', 'c', 'd', 'e', 'p', 'l']),
+			present: new Set<string>(['a']),
 			absent: new Set<string>(),
-			wrongPosition: Array.from({ length: 5 }, () => new Set<string>())
+			wrongPosition
 		};
-		const possibleWords = ['apple'];
-		const result = getEliminationWords(['apple'], possibleWords, constraints, mockFrequencies, 10);
-		expect(result).toEqual([]);
+		const possibleWords = ['beach'];
+		const result = getEliminationWords(
+			['beach', 'bench'],
+			possibleWords,
+			constraints,
+			mockFrequencies,
+			10
+		);
+
+		// Both words introduce the same new letters, but 'beach' tests 'a' at position 1
+		// (an untested position), while 'bench' does not use 'a' at all.
+		expect(result[0].word).toBe('beach');
+		expect(result[0].score).toBeGreaterThan(result[1].score);
+		expect(result[1].word).toBe('bench');
 	});
 });
