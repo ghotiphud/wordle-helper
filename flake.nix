@@ -25,7 +25,6 @@
             # Development tools
             git
             just
-            opencode
           ];
           buildInputs = [ 
             # Additional build dependencies if needed
