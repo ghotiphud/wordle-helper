@@ -17,23 +17,24 @@
       {
         # Development environment output
         devShells.default = mkShell {
-          nativeBuildInputs = [ 
+          nativeBuildInputs = [
             # Node.js runtime
             nodejs_24
             pnpm
-            
+
             # Development tools
             git
             just
+            prek
           ];
-          buildInputs = [ 
+          buildInputs = [
             # Additional build dependencies if needed
           ];
           shellHook = ''
             echo "⚡ SvelteKit development environment loaded!"
             echo "  Node.js version: $(node --version)"
             echo "  pnpm version: $(pnpm --version)"
-            
+
             # Set up local pnpm store
             export PNPM_HOME="$PWD/.pnpm-store"
             mkdir -p "$PNPM_HOME"
