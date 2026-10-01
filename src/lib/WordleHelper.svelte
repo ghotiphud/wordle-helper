@@ -5,7 +5,7 @@
 		scoreWordsByFrequency,
 		getEliminationWords,
 		type LetterFrequencies
-	} from '$lib/wordle';
+	} from '#lib/wordle.js';
 
 	let words: string[] = [];
 	let filteredWords: string[] = [];

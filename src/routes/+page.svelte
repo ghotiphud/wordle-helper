@@ -1,5 +1,5 @@
 <script lang="ts">
-	import WordleHelper from '$lib/WordleHelper.svelte';
+	import WordleHelper from '#lib/WordleHelper.svelte';
 </script>
 
 <svelte:head>
